@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VenZo | Portafolio Profesional</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: #f5f5f5;
+      color: #333;
+    }
+
+    header {
+      text-align: center;
+      padding: 1rem 0rem 3rem;
+      background: linear-gradient(to right, #007bff, #00c6ff);
+      color: #fff;
+    }
+
+    header img {
+      width: 250px;
+      height: auto;
+    }
+
+    header .profile {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      background: #ffffff;
+      padding: 1rem ;
+      border-bottom: 2px solid #e0e0e0;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #007bff;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    nav a:hover {
+      color: #000;
+    }
+
+    section {
+      padding: 4rem 1rem;
+      max-width: 1000px;
+      margin: auto;
+      animation: fadeIn 1s ease-in;
+    }
+
+    section h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+      color: #007bff;
+      text-align: center;
+      position: relative;
+    }
+
+    section h2::after {
+      content: '';
+      display: block;
+      width: 60px;
+      height: 4px;
+      background: #007bff;
+      margin: 10px auto 0;
+      border-radius: 2px;
+    }
+
+    .services-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      justify-content: center;
+    }
+
+    .service {
+      flex: 1 1 280px;
+      background: #ffffff;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s ease;
+      cursor: pointer;
+    }
+
+    .service:hover {
+      transform: translateY(-5px);
+    }
+
+    .service h3 {
+      color: #007bff;
+      margin-bottom: 0.75rem;
+      font-size: 1.5rem;
+    }
+
+    .service p {
+      color: #666;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    .project {
+      background: #ffffff;
+      margin: 1.5rem 0;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s ease;
+    }
+
+    .project:hover {
+      transform: translateY(-5px);
+    }
+
+    .project h3 {
+      color: #007bff;
+      margin-bottom: 0.75rem;
+      font-size: 1.5rem;
+    }
+
+    .project p {
+      color: #666;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    .project iframe {
+      width: 100%;
+      height: 250px;
+      border: none;
+      margin-top: 1rem;
+      border-radius: 8px;
+    }
+
+    .project-filters {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .project-filters button {
+      padding: 0.5rem 1rem;
+      border: 1px solid #007bff;
+      background: white;
+      color: #007bff;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .project-filters button:hover,
+    .project-filters button.active {
+      background: #007bff;
+      color: white;
+    }
+
+    .project[data-category] {
+      display: none;
+    }
+
+    .project.show {
+      display: block;
+    }
+
+    #contacto {
+      text-align: center;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.9rem;
+      background: #f0f0f0;
+      color: #666;
+      border-top: 1px solid #ddd;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    #modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.6);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+
+    #modal-box {
+      background-color: #fff;
+      padding: 2rem;
+      border-radius: 12px;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      animation: slideDown 0.4s ease-out;
+    }
+
+    #modal-box h4 {
+      font-size: 1.5rem;
+      color: #007bff;
+      margin-bottom: 1rem;
+    }
+
+    #modal-box button {
+      padding: 0.6rem 1.2rem;
+      margin: 0.5rem;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    #modal-confirm {
+      background-color: #007bff;
+      color: white;
+    }
+
+    #modal-cancel {
+      background-color: #ccc;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    #btnScrollTop {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 99;
+  font-size: 1.5rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 0.7rem 1rem;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  display: none;
+  transition: opacity 0.3s ease;
+}
+
+#btnScrollTop:hover {
+  background-color: #0056b3;
+}
+
+  </style>
+</head>
+
+<body>
+  <div id="modal-overlay">
+    <div id="modal-box">
+      <h4 id="modal-title">¿Deseas solicitar este servicio?</h4>
+      <div>
+        <button id="modal-confirm">Sí, contactar</button>
+        <button id="modal-cancel">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <header>
+    <div class="profile">
+      <img src="LogoVenZoBlancoSF (2).png" alt="Logo VenZo">
+<br>  
+      <p>Soluciones creativas, diseño profesional y resultados que impactan</p>
+    </div>
+  </header>
+
+  <nav>
+    <a href="#servicios">Servicios</a>
+    <a href="#proyectos">Proyectos</a>
+    <a href="#testimonios">Testimonios</a>
+    <a href="#contacto">Contacto</a>
+
+  </nav>
+
+  <section id="servicios">
+    <h2>Servicios</h2>
+    <div class="services-container">
+      <div class="service" data-title="Diseño Gráfico">
+        <h3>Diseño Gráfico</h3>
+        <p>Desde <strong> logotipos impactantes</strong> hasta <strong> identidad visual </strong> completa para marcas nuevas o en evolución.</p>
+      </div>
+      <div class="service" data-title="Edición de Video">
+        <h3>Edición de Video</h3>
+        <p>Edición profesional de reels, clips publicitarios y <strong> contenido viral </strong> para redes sociales.</p>
+      </div>
+      <div class="service" data-title="Diseño Web">
+        <h3>Diseño Web</h3>
+        <p>Desarrollo de sitios modernos, minimalistas y funcionales con <strong> HTML, CSS, JS o WordPress.</strong></p>
+      </div>
+      <div class="service" data-title="Redes Sociales">
+        <h3>Redes Sociales</h3>
+        <p>Gestión de <strong>contenido,</strong> diseño de piezas <strong>visuales,</strong> estrategia de <strong>crecimiento</strong> y <strong> storytelling digital.</strong></p>
+      </div>
+      <div class="service" data-title="Copywriting">
+        <h3>Copywriting</h3>
+        <p><strong>Textos que venden:</strong> biografías, slogans, descripciones de producto, guiones y más.</p>
+      </div>
+      <div class="service" data-title="Asistencia Virtual">
+        <h3>Asistencia Virtual</h3>
+        <p><strong>Organización</strong> de agendas, <strong>atención</strong> a clientes, gestión de tareas <strong> administrativas</strong> y más, todo de manera remota.</p>
+      </div>
+    </div>
+  </section>
+
+
+  <section id="proyectos">
+    <h2>Proyectos</h2>
+    <div class="project-filters">
+      <button data-category="all" class="active">Todos</button>
+      <button data-category="diseño">Diseño Gráfico / Redes Sociales</button>
+      <button data-category="web">Diseño Web</button>
+      <button data-category="asistencia">Asistencia Virtual</button>
+    </div>
+
+    <!-- Proyectos de Diseño Gráfico -->
+    <div class="project" data-category="diseño">
+      <h3>Diseños de logos para todo tipo de proyectos:</h3>
+      <p>Diseño minimalista, versatil y elegante.</p>
+      <img src="LogoGlow.png" alt="Multidiseño" style="width: 20%;">
+      <img src="LogoVenZoFondoBlanco.jpg" alt="Multidiseño" style="width: 20%;">
+      <img src="EvaLogo.png" alt="Multidiseño" style="width: 20%;">
+      <img src="InvesLogo.png" alt="Multidiseño" style="width: 20%;">
+      <img src="WafleLogo.png" alt="Multidiseño" style="width: 20%;">
+      <img src="GustosLogo.png" alt="Multidiseño" style="width: 20%;">
+      <img src="CrioserLogo.png" alt="Multidiseño" style="width: 20%;">
+      <img src="FerrerosLogo.png" alt="Multidiseño" style="width: 20%;">
+      <img src="BANNER.jpeg" alt="Multidiseño" style="width: 20%;">
+    </div>
+
+    <div class="project" data-category="diseño">
+      <h3>Portadas de revista</h3>
+      <p>Diseño editorial moderno y limpio.</p>
+      <div style="display: flex; gap: 1rem;">
+        <img src="PORTADAliscio.jpeg" alt="Portada 1" style="width: 23%;">
+        <img src="PORTADAlyan.jpeg" alt="Portada 2" style="width: 23%;">
+        <img src="PORTADAnubeserena.jpeg" alt="Portada 3" style="width: 23%;">
+        <img src="PORTADAvertaluma.jpeg" alt="Portada 4" style="width: 23%;">
+      </div>
+    </div>
+
+    <div class="project" data-category="diseño">
+      <h3>Diseños de Flyers para toda ocasión:</h3>
+      <p>Diseño minimalista, versatil y elegante.</p>
+      <div style="display: flex; gap: 1rem;">
+        <img src="flyer1.jpg" alt="Multidiseño" style="width: 20%;">
+        <img src="flye2.jpg" alt="Multidiseño" style="width: 20%;">
+        <img src="flye3.jpg" alt="Multidiseño" style="width: 20%;">
+      </div>
+      <br>
+       <div style="display: flex; gap: 1rem;">
+        <img src="flye4.jpg" alt="Multidiseño" style="width: 20%;">
+        <img src="flye5.jpg" alt="Multidiseño" style="width: 20%;">
+        <img src="flye6.jpg" alt="Multidiseño" style="width: 20%;">
+      </div>
+    </div>
+
+    <div class="project" data-category="diseño">
+      <h3>Imagenes de promocion</h3>
+      <p>Diseño de imagenes para publicidad digital.</p>
+      <div style="display: flex; gap: 1rem;">
+        <img src="Producto1.jpeg" alt="Producto 1" style="width: 23%;">
+        <img src="Producto2.jpeg" alt="Producto 2" style="width: 23%;">
+      </div>
+      
+    </div>
+
+    <!-- Proyectos de Diseño Web -->
+    <div class="project" data-category="web">
+      <h3>Tienda virtual: VAERA</h3>
+      <p>Diseño y desarrollo de ecommerce universitario.</p>
+      <iframe src="https://oscara14osp.github.io/VAERA-VirtualStore/" title="Vaera"></iframe>
+    </div>
+
+    <div class="project" data-category="web">
+      <h3>Tienda virtual: G1ow</h3>
+      <p>Diseño de tienda con pedido directo por WhatsApp Business.</p>
+      <iframe src="https://vitalityup.github.io/VirtualPrueba/" title="G1ow"></iframe>
+    </div>
+
+    <!-- Proyectos de Asistencia Virtual -->
+    <div class="project" data-category="asistencia">
+      <h3>Informe financiero automatizado</h3>
+      <p>Dashboard con análisis mensual y KPIs dinámicos.</p>
+      <img src="Asistencia1.png" alt="Informe Excel">
+    </div>
+
+  </section>
+<HR>
+<section id="testimonios">
+    <h2>Testimonios</h2>
+<div style="display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center;">
+    
+    <!-- Testimonio 1 -->
+    <div style="background: #fff; padding: 2rem; border-radius: 12px; max-width: 300px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); text-align: center;">
+      <img src="mry.jpg" alt="Maryoris" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid #007bff;">
+      <div style="margin: 1rem 0;">
+        <span style="color: gold;">★★★★★</span>
+      </div>
+      <p style="font-style: italic;">"Increíble atención al detalle. Superó mis expectativas en cada paso del proceso. ¡Muy recomendado!"</p>
+      <p style="margin-top: 1rem; font-weight: 600;">– Marolis Cañizares</p>
+    </div>
+
+    <!-- Testimonio 2 -->
+    <div style="background: #fff; padding: 2rem; border-radius: 12px; max-width: 300px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); text-align: center;">
+      <img src="GraciasPorElegirnosGrande.jpg" alt="glow" style="width: 120px; height: 120px; border-radius: 60%; object-fit: cover; border: 3px solid #007bff;">
+      <div style="margin: 1rem 0;">
+        <span style="color: gold;">★★★★★</span>
+      </div>
+      <p style="font-style: italic;">"Trabajar con VenZo fue un placer. Su profesionalismo y creatividad son excepcionales."</p>
+      <p style="margin-top: 1rem; font-weight: 600;">– CEO G1ow</p>
+    </div>
+
+
+    <!-- Testimonio 3 -->
+    <div style="background: #fff; padding: 2rem; border-radius: 12px; max-width: 300px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); text-align: center;">
+      <img src="anony.jpg" alt="Anonimo" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid #007bff;">
+      <div style="margin: 1rem 0;">
+        <span style="color: gold;">★★★★★</span>
+      </div>
+      <p style="font-style: italic;">"El diseño fue justo lo que necesitaba para mi marca. Comunicación clara y rápida entrega, gestionó mis redes en sus inicios y supo ponerme en el mapa."</p>
+      <p style="margin-top: 1rem; font-weight: 600;">– Carlos Gómez</p>
+    </div>
+
+  </div>
+ </section>
+
+<section id="contacto">
+  <h2>Contacto</h2>
+  <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 2rem;">
+    <img src="Oscar.jpg" alt="Oscar Ospino" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 4px solid #007bff; box-shadow: 0 0 15px rgba(0,0,0,0.1);">
+  </div>
+  <p>¿Te interesa trabajar conmigo? Escríbeme directamente por correo a 
+    <a href="mailto:venzo.contacto@gmail.com" style="color:#007bff">venzo.contacto@gmail.com</a>
+  </p>
+  <p>O envíame un mensaje por 
+    <a href="https://wa.me/573007659950?text=Hola%20VenZo%2C%20quiero%20más%20información%20sobre%20tus%20servicios." style="color:#007bff">WhatsApp</a>
+  </p>
+
+</section>
+<button onclick="scrollToTop()" id="btnScrollTop" title="Volver arriba">⬆️</button>
+
+  <footer>
+    &copy; 2025 VenZo. Todos los derechos reservados.
+  </footer>
+
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const buttons = document.querySelectorAll(".project-filters button");
+      const projects = document.querySelectorAll(".project");
+
+      buttons.forEach(btn => {
+        btn.addEventListener("click", () => {
+          buttons.forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+          const category = btn.dataset.category;
+          projects.forEach(proj => {
+            proj.classList.remove("show");
+            if (category === "all" || proj.dataset.category === category) {
+              proj.classList.add("show");
+            }
+          });
+        });
+      });
+
+      document.querySelector('[data-category="all"]').click();
+
+      // Modal service click
+      const serviceBoxes = document.querySelectorAll(".service");
+      const modal = document.getElementById("modal-overlay");
+      const modalTitle = document.getElementById("modal-title");
+      const confirmBtn = document.getElementById("modal-confirm");
+      const cancelBtn = document.getElementById("modal-cancel");
+      let currentService = "";
+
+      serviceBoxes.forEach(service => {
+        service.addEventListener("click", () => {
+          currentService = service.dataset.title;
+          modalTitle.textContent = `¿Deseas enviar un mensaje a VENZO solicitando el servicio de "${currentService}"?`;
+          modal.style.display = "flex";
+        });
+      });
+
+      cancelBtn.addEventListener("click", () => {
+        modal.style.display = "none";
+      });
+
+      confirmBtn.addEventListener("click", () => {
+        const message = `Hola VenZo, estoy interesado en el servicio de ${currentService}.`;
+        const url = `https://wa.me/573007659950?text=${encodeURIComponent(message)}`;
+        window.open(url, '_blank');
+        modal.style.display = "none";
+      });
+
+      window.addEventListener("click", (e) => {
+        if (e.target === modal) {
+          modal.style.display = "none";
+        }
+      });
+    });
+
+    // Mostrar u ocultar botón al hacer scroll
+window.addEventListener("scroll", () => {
+  const scrollBtn = document.getElementById("btnScrollTop");
+  if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+    scrollBtn.style.display = "block";
+  } else {
+    scrollBtn.style.display = "none";
+  }
+});
+
+// Función para volver arriba suavemente
+window.scrollToTop = function () {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+  </script>
+</body>
+
+</html>
